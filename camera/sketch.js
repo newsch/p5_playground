@@ -32,13 +32,13 @@ var fLength = 30;
 var flash1 = false;
 var flash2 = false;
 //photo variables
-var p = 1;
+var p = 0;
 var photo1 = false;
 var photo2 = false;
 
 function setup() {
   createCanvas(400, 400);
-  frameRate(30);
+  frameRate(60);
   palette = [color(255, 239, 214), color(59, 55, 44), color(255, 255, 255), color(0, 0, 0), color(204, 91, 10)];
   noStroke();
 
@@ -103,11 +103,22 @@ function draw() {
   if (sWidth <= 20) {
       shutter1 = false;
       shutter2 = true;
+      flash1 = true;
+  } else if (shutter2 && sWidth >= 30) {
+      shutter2 = false;
   }
   if (shutter1) {
       sWidth -= 1;
       fill(palette[0]);
-      ellipse(camX + 3, camY + 4, 30, 30);
+      ellipse(camX + 30, camY + 70, 30, 30);
+      fill(palette[4]);
+      ellipse(camX + 30, camY + 70, sWidth, sWidth);
+  } else if (shutter2) {
+      sWidth += 1;
+      fill(palette[0]);
+      ellipse(camX + 30, camY + 70, 30, 30);
+      fill(palette[4]);
+      ellipse(camX + 30, camY + 70, sWidth, sWidth);
   }
 
   //flash animation
@@ -142,7 +153,8 @@ function draw() {
       drawPhoto(120, 185, p);
   }
   if (photo2) {
-      drawPhoto(120, 185, p);
+      drawPhoto(120, 185, 1);
+      noLoop();
   }
 }
 
