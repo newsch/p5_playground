@@ -1,4 +1,35 @@
 var on = false;
+var colors = {
+  off: {
+    background: '#dddddd',
+    bulb: '#cccccc',
+    base: '#eeeeee',
+  },
+  on: {
+    background: '#dddddd',
+    bulb: '#cccccc',
+    base: '#eeeeee',
+  }
+}
+
+var oldFill;
+var curFill;
+function setFill(newFill) {
+  if (curFill !== newFill) {
+    oldFill = curFill;
+    curFill = newFill;
+  }
+  fill(newFill);
+}
+function revertFill() {
+  if (curFill !== oldFill) {
+    fill(oldFill);
+    curFill = oldFill;
+    return true;
+  } else {
+    return false;
+  }
+}
 
 function mirrorPoints(points, changes) {
   mirroredPoints = [];
