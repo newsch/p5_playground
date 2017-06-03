@@ -50,21 +50,28 @@ function setup() {
   noFill();
   // noLoop();
   bez = new InteractiveBezier(100, 150, 100, 250, 150, 200, 150, 350);
+  // bez2 = new InteractiveBezier(125, 225, 125, 225, 150, 200, 150, 350);
+  // cur = new InteractiveCurve(100, 150, 100, 250, 150, 200, 150, 350)
 }
 
 function draw() {
+  // background
+  background(255);
   // bulb
   // fill(255);
-  background(255);
   arc(200, 150, 200, 200, PI, TWO_PI);
   bezier.apply(null, mirrorPoints(bez.getPoints(), [200, null, 200, null, 200, null, 200, null]));
   bez.draw();
+  // bez2.draw();
+  // find point on bezier
+  bPoint = bez.getPoint(0.5);
+  ellipse(bPoint.x, bPoint.y, 10, 10);
   // base
-
 }
 
 function mouseMoved() {
   if (mouseIsPressed) {
     bez.checkPoints();
+    // bez2.checkPoints();
   }
 }
