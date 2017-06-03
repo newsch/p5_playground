@@ -4,6 +4,11 @@ code I wrote while watching [The Coding Train's videos about p5.js](https://www.
 
 ## Table of Contents
 
+- [hello_world](hello_world)
 - [dada](dada)
 - [camera](camera)
-- [hello_world](hello_world)
+- [lightbulb](lightbulb)
+- [vase](vase)
+- [rainbow-o-matic](rainbow-o-matic)
+- [mta_subway_brochure](mta_subway_brochure)
+- [tape+cardboard](tape+cardboard)
