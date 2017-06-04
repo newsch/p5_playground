@@ -4,14 +4,19 @@ code I wrote while I was at [Rune Madsen's](https://runemadsen.com/) [Programmin
 
 ## Contents
 
+### Larger Pieces
+
+- [rainbow-o-matic](rainbow-o-matic)
+- [mta_subway_brochure](mta_subway_brochure)
+- [tape+cardboard](tape+cardboard)
+- [walks](walks)
+
 ### Templates
 
 - [empty-example](empty-example)
 - [non-empty-example](non-empty-example)
 
 ### From/For Rune Madsen's Workshop/Book
-
-#### Structured
 
 - [rotation](rotation)
 - [slim](slim)
@@ -22,13 +27,6 @@ code I wrote while I was at [Rune Madsen's](https://runemadsen.com/) [Programmin
 - [color_slider](color_slider)
 - [color_slider_hsluv](color_slider_hsluv)
 - [color_slider_hsluv_comparison](color_slider_hsluv_comparison)
-
-### Less Structured
-
-- [rainbow-o-matic](rainbow-o-matic)
-- [mta_subway_brochure](mta_subway_brochure)
-- [tape+cardboard](tape+cardboard)
-- [walks](walks)
 
 ### Coding Train
 
