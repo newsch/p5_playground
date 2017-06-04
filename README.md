@@ -1,4 +1,4 @@
-# p5_tutorials
+# p5_playground
 
 code I wrote while I was at [Rune Madsen's](https://runemadsen.com/) [Programming Design Systems workshop](https://github.com/runemadsen/programming-design-systems-workshop), reading [his book on the same topic](https://programmingdesignsystems.com/), watching [The Coding Train's videos about p5.js](https://www.youtube.com/user/shiffman/playlists?sort=dd&view=50&shelf_id=14) (tutorial code [here](https://github.com/CodingTrain/Rainbow-Code/tree/master/Tutorials/P5JS)), and doing other things.
 
