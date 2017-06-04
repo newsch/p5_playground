@@ -34,7 +34,7 @@ function setup() {
 function draw() {
   currentY = lineSpacing + lineHeight / 2;
   canvasBounds = [0, canvasWidth];
-  while (currentY < canvgiasHeight - (lineHeight + lineSpacing)) {
+  while (currentY < canvasHeight - (lineHeight + lineSpacing)) {
     pointA = canvasBounds[int(random(1, 3)) - 1];
     pointB = new int;
     lineLength = random(lineLengthMin, lineLengthMax);
