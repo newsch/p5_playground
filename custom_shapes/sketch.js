@@ -16,16 +16,25 @@ function setup() {
 function draw() {
   translate(canvasWidth / 2, canvasHeight / 2);
 
-  shapeBounds = {
-    lower: -canvasHeight / 2,
-    upper: canvasHeight / 2,
-  }
   beginShape();
-    for (i = 0; i < 10; i++) {
-      vertex(random(shapeBounds.lower, shapeBounds.upper),
-             random(shapeBounds.lower, shapeBounds.upper));
-    }
-  endShape(CLOSE);  // return to initial vertex and end shape
+    vertex(-canvasWidth / 3, -canvasHeight / 3);
+    vertex(canvasWidth / 3, -canvasHeight / 3);
+    vertex(canvasWidth / 3, canvasHeight / 3);
+    bezierVertex(0, canvasHeight / 4,
+                 0, canvasHeight / 4,
+                 -canvasWidth / 3, canvasHeight / 3,
+    );
+    // vertex(-canvasWidth / 3, canvasHeight / 3);
+    push();
+    translate(canvasWidth / 3, canvasHeight / 6);
+    beginContour();  // contours must cut in the opposite direction of the shape
+      vertex(-canvasWidth / 6, canvasHeight / 6);
+      vertex(canvasWidth / 6, canvasHeight / 6);
+      vertex(canvasWidth / 6, -canvasHeight / 6);
+      vertex(-canvasWidth / 6, -canvasHeight / 6);
+    endContour();
+    pop();
+  endShape(CLOSE);
 }
 // function windowResized() {
 //   resizeCanvas(windowWidth, windowHeight);
