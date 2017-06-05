@@ -1,4 +1,4 @@
-var canvasWidth = 400, canvasHeight = 400;
+var canvasWidth = 400, canvasHeight = 500;
 
 var HSL_BACK_COLOR = true;
 var BACK_COLOR = '#fff';
