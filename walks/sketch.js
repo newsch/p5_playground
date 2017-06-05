@@ -1,43 +1,43 @@
 var canvasWidth = 400, canvasHeight = 500;
 
-var HSL_BACK_COLOR = true;
-var BACK_COLOR = '#fff';
+var HSL_BACK_COLOR = true;     // use HSL for background
+var BACK_COLOR = '#fff';       // value used if !HSL_BACK_COLOR
 
-var RND_BACK_HUE = true;
-var BACK_HUE = 0;
-var BACK_HUE_LOWER = 0;
-var BACK_HUE_UPPER = 360;
+var RND_BACK_HUE = true;       // random hue for background color
+var BACK_HUE = 0;              // value used if !RND_BACK_HUE
+var BACK_HUE_LOWER = 0;        // lower bound for rnd hue generation
+var BACK_HUE_UPPER = 360;      // upper bound for rnd hue generation
 
-var RND_BACK_SAT = false;
+var RND_BACK_SAT = false;      // random saturation for background color
 var BACK_SAT = 30;
 var BACK_SAT_LOWER = 0;
 var BACK_SAT_UPPER = 100;
 
-var RND_BACK_LIGHT = false;
+var RND_BACK_LIGHT = false;    // random lightness for background color
 var BACK_LIGHT = 50;
 var BACK_LIGHT_LOWER = 0;
 var BACK_LIGHT_UPPER = 100;
 
-var RND_FOREGROUND_COLOR = false;
-var FOREGROUND_COLOR = '#666';
+var RND_FORE_COLOR = false;    // random foreground color
+var FORE_COLOR = '#676767';
 
 // line width and spacing are the opposite of what they appear
-var RND_LINE_WIDTH = true;
+var RND_LINE_WIDTH = true;     // random width for lines drawn over shape
 var LINE_WIDTH = 4;
 var LINE_WIDTH_LOWER = 1;
 var LINE_WIDTH_UPPER = 3;
 
-var RND_LINE_SPACING = true;
+var RND_LINE_SPACING = true;   // random spacing for lines drawn over shape
 var LINE_SPACING = 4;
 var LINE_SPACING_LOWER = 1;
 var LINE_SPACING_UPPER = 4;
 
-var RND_VERTEX_RADIUS = true;
+var RND_VERTEX_RADIUS = true;  // random radius for vertices of shape
 var VERTEX_RADIUS = 10;
 var VERTEX_RADIUS_LOWER = 50;
 var VERTEX_RADIUS_UPPER = 150;
 
-var RND_VERTEX_COUNT = true;
+var RND_VERTEX_COUNT = true;   // random number of vertices
 var VERTEX_COUNT = 10;
 var VERTEX_COUNT_LOWER = 4;
 var VERTEX_COUNT_UPPER = 15;
