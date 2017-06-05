@@ -22,6 +22,9 @@ var RND_FORE_COLOR = false;    // random foreground color
 var FORE_COLOR = '#676767';
 
 // line width and spacing are the opposite of what they appear
+
+var USE_MASK = false;          // use masking (reveal objects behind shape)
+
 var RND_LINE_WIDTH = true;     // random width for lines drawn over shape
 var LINE_WIDTH = 4;
 var LINE_WIDTH_LOWER = 1;
@@ -54,53 +57,62 @@ var VERTEX_COUNT_UPPER = 15;
 //   }
 // }
 
-function fillHsluv(h, s, l) {
+/** Sets fill color with HSLuv */
+function fillHsluv(h, s, l, canvas=null) {
   var rgb = hsluv.hsluvToRgb([h, s, l]);
-  fill(rgb[0] * 255, rgb[1] * 255, rgb[2] * 255);
+  if (this.canvas) this.canvas.fill(rgb[0] * 255, rgb[1] * 255, rgb[2] * 255);
+  else fill(rgb[0] * 255, rgb[1] * 255, rgb[2] * 255);
 }
 
+/** Sets stroke color with HSLuv */
 function strokeHsluv(h, s, l) {
   var rgb = hsluv.hsluvToRgb([h, s, l]);
   stroke(rgb[0] * 255, rgb[1] * 255, rgb[2] * 255);
 }
 
+/** Sets background color with HSLuv */
 function backgroundHsluv(h, s, l) {
   var rgb = hsluv.hsluvToRgb([h, s, l]);
   background(rgb[0] * 255, rgb[1] * 255, rgb[2] * 255);
 }
 
 function setup() {
-  if (RND_FOREGROUND_COLOR) {
-    // TODO: implement random foreground color
-  } else foregroundColor = FOREGROUND_COLOR;
+  canvas = createCanvas(canvasWidth, canvasHeight);
 
-  if (HSL_BACK_COLOR) {
-    if (RND_BACK_HUE) {
-      backHue = random(BACK_HUE_LOWER, BACK_HUE_UPPER);
-    } else backHue = BACK_HUE;
-    if (RND_BACK_SAT) {
-      backSat = random(BACK_SAT_LOWER, BACK_SAT_UPPER);
-    } else backSat = BACK_SAT;
-    if (RND_BACK_LIGHT) {
-      backLight = random(BACK_LIGHT_LOWER, BACK_LIGHT_UPPER);
-    } else backLight = BACK_LIGHT;
-    backHsluv = [backHue, backSat, backLight];
-  } else backgroundColor = BACK_COLOR;
-
-  createCanvas(canvasWidth, canvasHeight);
-
-  if (HSL_BACK_COLOR) {
-    backgroundHsluv.apply(null, backHsluv);
-  } else background(BACK_COLOR);
-
-  fill(foregroundColor);
   noStroke();
   noLoop();
-  // frameRate(1);  // FEATURE: slideshow w/o clearing background
+  // draw(), frameRate(1);  // FEATURE: slideshow w/o clearing background
 }
 
 function draw() {
   translate(canvasWidth / 2, canvasHeight / 2);
+
+    // generate colors
+    if (RND_FORE_COLOR) {
+      // TODO: implement random foreground color
+    } else foregroundColor = FORE_COLOR;
+
+    if (HSL_BACK_COLOR) {
+      if (RND_BACK_HUE) {
+        backHue = random(BACK_HUE_LOWER, BACK_HUE_UPPER);
+      } else backHue = BACK_HUE;
+      if (RND_BACK_SAT) {
+        backSat = random(BACK_SAT_LOWER, BACK_SAT_UPPER);
+      } else backSat = BACK_SAT;
+      if (RND_BACK_LIGHT) {
+        backLight = random(BACK_LIGHT_LOWER, BACK_LIGHT_UPPER);
+      } else backLight = BACK_LIGHT;
+      backHsluv = [backHue, backSat, backLight];
+      console.log('random color: ', backHsluv);
+    } else backgroundColor = BACK_COLOR;
+    if (HSL_BACK_COLOR) {
+      backgroundHsluv.apply(null, backHsluv);
+    } else background(BACK_COLOR);
+    fill(foregroundColor);
+
+  // // prove mask
+  // fill('#ff0000');
+  // ellipse(0, 0, 50, 50);
 
   // shape
   shapeBounds = {
@@ -110,16 +122,28 @@ function draw() {
   if (RND_VERTEX_COUNT) {
     vertexCount = random(VERTEX_COUNT_LOWER, VERTEX_COUNT_UPPER);
   } else vertexCount = VERTEX_COUNT;
-  beginShape();
+
+  if (USE_MASK) {
+    shapeMask = createGraphics(canvasWidth, canvasHeight);
+    shapeMask.translate(canvasWidth / 2, canvasHeight / 2);
+    // shapeMask.background(0, 0, 255);  // set background to blue (not necessary?)
+    shapeMask.noStroke();
+    shapeMask.fill(foregroundColor);
+    shapeMask.beginShape();
+  } else {
+    noStroke();
+    fill(foregroundColor);
+    beginShape();
+  }
     for (i = 0; i < 360; i += 360 / vertexCount) {
       if (RND_VERTEX_RADIUS) {
         radius = random(VERTEX_RADIUS_LOWER, VERTEX_RADIUS_UPPER);
       } else radius = VERTEX_RADIUS;
       x = cos(radians(i)) * radius;
       y = sin(radians(i)) * radius;
-      vertex(x, y);
+      if (USE_MASK) shapeMask.vertex(x, y); else vertex(x, y);
     }
-  endShape(CLOSE);
+  if (USE_MASK) shapeMask.endShape(CLOSE); else endShape(CLOSE);
 
   // lines
   translate(-canvasWidth / 2, -canvasHeight / 2);
@@ -127,6 +151,12 @@ function draw() {
   lineWidth = 0;
   lineSpacing = 0;
   strokeWeight(lineWidth);
+
+  if (USE_MASK) {  // create renderer object
+    lineMask = createGraphics(canvasWidth, canvasHeight);
+    // lineMask.translate(canvasWidth / 2, canvasHeight / 2);
+    lineMask.stroke('#0000ff');
+  }
 
   if (HSL_BACK_COLOR) {
     strokeHsluv.apply(null, backHsluv);
@@ -143,9 +173,38 @@ function draw() {
       lineSpacing = random(LINE_SPACING_LOWER, LINE_SPACING_UPPER);
     } else lineSpacing = LINE_SPACING;
     x += lineSpacing + lineWidth / 2;
-    line(x, 0, x, canvasHeight);
+    if (USE_MASK) {  // draw to renderer
+      lineMask.strokeWeight(lineWidth);
+      lineMask.line(x, 0, x, canvasHeight);
+    } else line(x, 0, x, canvasHeight);
+  }
+  if (USE_MASK) {  // put it all together
+    function copyPixels(canvas1, canvas2) {
+      canvas1.loadPixels();
+      canvas2.loadPixels();
+      for (i = 0; i < canvas2.pixels.length; i++) {
+        canvas2.pixels[i] = canvas1.pixels[i];
+      }
+    }
+    canvas.loadPixels();
+    lineMask.loadPixels();
+    shapeMask.loadPixels();
+    lineImage = new p5.Image(canvasWidth, canvasHeight);
+    shapeImage = new p5.Image(canvasWidth, canvasHeight);
+    lineImage.loadPixels();
+    shapeImage.loadPixels();
+    // lineImage.pixels = lineMask.pixels.slice();
+    copyPixels(lineMask, lineImage);
+    // lineImage.copy(lineMask);
+    lineImage.updatePixels();
+    // shapeImage.pixels = shapeMask.pixels.slice();
+    copyPixels(shapeMask, shapeImage);
+    shapeImage.updatePixels();
+    shapeImage.mask(lineImage);
+    image(shapeImage, 0, 0);
   }
   // TODO: center canvas around shape
+  console.log('done');
 }
 
 // function windowResized() {
